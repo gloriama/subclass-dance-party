@@ -17,6 +17,7 @@ Dancer.prototype.step = function() {
   // it just schedules the next step
   var that = this;
   setTimeout(function () { that.step(); }, this.timeBetweenSteps);
+  // setTimeout(this.step.bind(this), this.timeBetweenSteps); <--this should work? try again later
 };
 
 Dancer.prototype.setPosition = function(top, left) {
