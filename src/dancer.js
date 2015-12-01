@@ -8,6 +8,7 @@ var Dancer = function(top, left, timeBetweenSteps) {
   this.left = left;
   this.size = 10;
   this.color = '#f00';
+  this.alive = true;
   this.step();
   // now that we have defined the dancer object, we can start setting up important parts of it by calling the methods we wrote
   // this one sets the position to some random default point within the body
@@ -60,7 +61,7 @@ Dancer.prototype.setColor = function (color) { //color = hexadecimal string
 };
 
 Dancer.prototype.setSize = function (size) {
-  this.size = size || 10;
+  this.size = Math.min(size, 50) || 10;
   var styleSettings = {
     'border-radius': '' + this.size + 'px',
     'border-width': '' + this.size + 'px'
@@ -69,5 +70,16 @@ Dancer.prototype.setSize = function (size) {
 }
 
 Dancer.prototype.handleCollision = function (partner) { //partner = another Dancer instance
-  this.setColor('#000');
+  // this.setColor('#000');
+  if (partner.alive && this.alive) {
+    if (this.size > partner.size) {
+      partner.alive = false;
+      this.setSize(this.size + partner.size);
+      partner.size = 0;
+    } else {
+      this.alive = false;
+      partner.setSize(this.size + partner.size);
+      this.size = 0;
+    }
+  }
 };

@@ -64,9 +64,7 @@ $(document).ready(function() {
                                 Math.pow(d1Center.y - d2Center.y, 2),
                                 .5);
         if (distance < d1.size + d2.size) {
-          console.log("collision occurred");
-          d1.handleCollision();
-          d2.handleCollision();
+          d1.handleCollision(d2);
         }
       }
     }
