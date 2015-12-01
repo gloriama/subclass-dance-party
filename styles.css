@@ -3,7 +3,8 @@ body, html{
 }
 body{
   margin: 0px;
-  background-color:#444;
+  background: #444 url('src/Underwater-Background.jpeg') no-repeat;
+  background-size:cover;
   font-size: 18px;
 }
 body, a:link, a:visited, a:active{

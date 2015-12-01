@@ -34,3 +34,11 @@ Dancer.prototype.setPosition = function(top, left) {
 Dancer.prototype.lineUp = function(top, left) {
   this.setPosition(top, left);
 };
+
+Dancer.prototype.stopMoving = function () {
+  
+};
+
+Dancer.prototype.startMoving = function () {
+  
+};

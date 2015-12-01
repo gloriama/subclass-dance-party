@@ -55,3 +55,12 @@ MovingBlinkyDancer.prototype.lineUp = function(top, left) {
   this.moving = false;
   Dancer.prototype.lineUp.call(this, top, left);
 };
+
+MovingBlinkyDancer.prototype.stopMoving = function () {
+  this.moving = false;
+};
+
+MovingBlinkyDancer.prototype.startMoving = function () {
+  this.moving = true;
+};
+
