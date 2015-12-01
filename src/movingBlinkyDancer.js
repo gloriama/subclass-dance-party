@@ -5,6 +5,7 @@ var MovingBlinkyDancer = function(top, left, timeBetweenSteps) {
   this.left = left;
   this.stepCount = 0;
   this.setDirection();
+  this.moving = true;
 };
 
 MovingBlinkyDancer.prototype = Object.create(BlinkyDancer.prototype);
@@ -34,16 +35,23 @@ MovingBlinkyDancer.prototype.setPosition = function (top, left) {
 
 MovingBlinkyDancer.prototype.step = function() {
   //move the dancer 20 pixels in its direction
-  this.top -= Math.sin(this.direction) * 20;
-  this.left += Math.cos(this.direction) * 20;
-  this._modPosition();
-  this.setPosition(this.top, this.left);
+  if (this.moving) {
+    this.top -= Math.sin(this.direction) * 20;
+    this.left += Math.cos(this.direction) * 20;
+    this._modPosition();
+    this.setPosition(this.top, this.left);
+
+    this.stepCount++;
+    if (this.stepCount == 20) {
+      this.setDirection();
+      this.stepCount = 0;
+    }
+  }
 
   BlinkyDancer.prototype.step.call(this);
+};
 
-  this.stepCount++;
-  if (this.stepCount == 20) {
-    this.setDirection();
-    this.stepCount = 0;
-  }
+MovingBlinkyDancer.prototype.lineUp = function(top, left) {
+  this.moving = false;
+  Dancer.prototype.lineUp.call(this, top, left);
 };
