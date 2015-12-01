@@ -1,26 +1,19 @@
 var ColoredBlinkyDancer = function (top, left, timeBetweenSteps) {
   BlinkyDancer.call(this, top, left, timeBetweenSteps);
-  this.color = undefined; // || this.setRandomColor();
-  this.setColor();
+  this.setColor(this._getRandomColor());
+  this.changeColor = false;
 };
 
 ColoredBlinkyDancer.prototype = Object.create(BlinkyDancer.prototype);
 ColoredBlinkyDancer.prototype.constructor = ColoredBlinkyDancer;
-ColoredBlinkyDancer.prototype._assignRandomColor = function () {
+ColoredBlinkyDancer.prototype._getRandomColor = function () {
   // Generate a random hexidecimal string  
-  this.color = '#';
+  var output = '#';
   var chars = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'];
   for (var i = 0; i < 6; i++) {
-    this.color += chars[Math.floor(Math.random() * 16)];
+    output += chars[Math.floor(Math.random() * 16)];
   }
-  //console.log(this.color);
-}
-ColoredBlinkyDancer.prototype.setColor = function () {
-  this._assignRandomColor();
-  var styleSettings = {
-    'border-color': this.color
-  };
-  this.$node.css(styleSettings);
+  return output;
 }
 
 ColoredBlinkyDancer.prototype.step = function() {
@@ -29,5 +22,8 @@ ColoredBlinkyDancer.prototype.step = function() {
   // toggle() is a jQuery method to show/hide the <span> tag.
   // See http://api.jquery.com/category/effects/ for this and
   // other effects you can use on a jQuery-wrapped html tag.
-  this.setColor();
+  if (this.changeColor) {
+    this.setColor(this._getRandomColor());
+  }
+  this.changeColor = !this.changeColor;
 };

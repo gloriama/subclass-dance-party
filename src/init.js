@@ -25,12 +25,10 @@ $(document).ready(function() {
     var dancer = new dancerMakerFunction(
       $("body").height() * Math.random(),
       $("body").width() * Math.random(),
-      Math.random() * 1000
+      Math.random() * 900 + 100
     );
     dancer.$node.on("mouseover", function(event) {
-      console.log("FOUND");
       dancer.stopMoving();
-      
     });
     /*
     dancer.$node.on("mouseout", function(event) {
@@ -47,5 +45,33 @@ $(document).ready(function() {
       window.dancers[i].lineUp($("body").height() / 2, separation * (i + 1));
     }    
   });
+
+  //periodically check dancers' positions and run their collision behavior
+  var runCollisionHandler = function () {
+    for(var i = 0; i < window.dancers.length; i++) {
+      for (var j = i; j < window.dancers.length; j++) {
+        if (i === j) {
+          continue;
+        }
+
+        var d1 = window.dancers[i];
+        var d2 = window.dancers[j];
+        var d1Center = { x: d1.left + d1.size,
+                         y: d1.top + d1.size };
+        var d2Center = { x: d2.left + d2.size,
+                         y: d2.top + d2.size };
+        var distance = Math.pow(Math.pow(d1Center.x - d2Center.x, 2) +
+                                Math.pow(d1Center.y - d2Center.y, 2),
+                                .5);
+        if (distance < d1.size + d2.size) {
+          console.log("collision occurred");
+          d1.handleCollision();
+          d2.handleCollision();
+        }
+      }
+    }
+  };
+  setInterval(runCollisionHandler, 50);
+
 });
 
