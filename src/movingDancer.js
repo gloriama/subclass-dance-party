@@ -4,8 +4,7 @@ var MovingDancer = function(top, left, timeBetweenSteps) {
   this.stepCount = 0;
   this.setDirection();
   this.moving = true;
-  this.setColor(ColoredBlinkyDancer.prototype._getRandomColor(), 'transparent');
-  this.eater = true; 
+  this.setColor(ColoredBlinkyDancer.prototype._getRandomColor()); 
 };
 
 MovingDancer.prototype = Object.create(Dancer.prototype);
@@ -35,13 +34,19 @@ MovingDancer.prototype._modPosition = function() {
   return (this.top !== oldTop) || (this.left !== oldLeft);
 };
 
+MovingDancer.prototype.setPosition = function (top, left, noAnimate) {
+  this.top = top;
+  this.left = left;
+  var changed = this._modPosition(); //may modify position
+  Dancer.prototype.setPosition.call(this, this.top, this.left, changed || noAnimate);
+}
+
 MovingDancer.prototype.step = function() {
   //move the dancer 20 pixels in its direction
   if (this.moving) {
     this.top -= Math.sin(this.direction) * 20;
     this.left += Math.cos(this.direction) * 20;
-    var changed = this._modPosition(); //may modify position
-    this.setPosition(this.top, this.left, changed);
+    this.setPosition(this.top, this.left);
     this.stepCount++;
     if (this.stepCount == 20) {
       this.setDirection();

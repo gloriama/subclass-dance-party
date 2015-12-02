@@ -1,6 +1,33 @@
 $(document).ready(function() {
   window.dancers = [];
 
+  //create one controllable dancer
+  var controlledDancer = new ControlledDancer($("body").height()/2,
+                                           $("body").width()/2,
+                                           100);
+  window.dancers.push(controlledDancer);
+  $('body').append(controlledDancer.$node);
+  $(window).on("keypress", function(event) {
+      console.log(event.keyCode);
+
+      if (event.keyCode === 97) { //left arrow key
+        controlledDancer.direction = 'left';
+        controlledDancer.setPosition(controlledDancer.top, controlledDancer.left - 20, true);
+      } else if (event.keyCode === 119) { //up arrow key
+        controlledDancer.direction = 'top';
+        controlledDancer.setPosition(controlledDancer.top - 20, controlledDancer.left, true);
+      } else if (event.keyCode === 100) { //right arrow key
+        controlledDancer.direction = 'right';
+        controlledDancer.setPosition(controlledDancer.top, controlledDancer.left + 20, true);
+      } else if (event.keyCode === 115) { //down arrow key
+        controlledDancer.direction = 'bottom';
+        controlledDancer.setPosition(controlledDancer.top + 20, controlledDancer.left, true);
+      }
+    });
+
+
+
+
   $(".addDancerButton").on("click", function(event) {
     /* This function sets up the click handlers for the create-dancer
      * buttons on dancefloor.html. You should only need to make one small change to it.
@@ -45,7 +72,7 @@ $(document).ready(function() {
       window.dancers[i].lineUp($("body").height() / 2, separation * (i + 1));
     }    
   });
-
+  
   //periodically check dancers' positions and run their collision behavior
   var runCollisionHandler = function () {
     for(var i = 0; i < window.dancers.length; i++) {

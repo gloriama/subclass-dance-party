@@ -52,19 +52,19 @@ Dancer.prototype.startMoving = function () {
   
 };
 
-Dancer.prototype.setColor = function (color, pacman) { //color = hexadecimal string
+Dancer.prototype.setColor = function (color) { //color = hexadecimal string
   this.color = color || '#f00';
   var styleSettings = {
     'border-top-color': this.color,
     'border-left-color': this.color,
     'border-bottom-color': this.color,
-    'border-right-color': pacman || this.color  
+    'border-right-color': this.color  
   };
   this.$node.css(styleSettings);
 };
 
 Dancer.prototype.setSize = function (size) {
-  this.size = size === 0 ? 0 : Math.min(size, 50) || 20;
+  this.size = size === 0 ? 0 : Math.min(size, 400) || 20;
   var styleSettings = {
     'border-radius': '' + this.size + 'px',
     'border-width': '' + this.size + 'px'
@@ -83,11 +83,12 @@ Dancer.prototype.handleCollision = function (partner) { //partner = another Danc
   var eat = function (eater, food) {
     eater.setSize(eater.size + food.size / 2);
     food.setSize(0);
+    food.eater = false;
   }
 
   if (this.eater !== partner.eater) {
     this.eater ? eat(this, partner) : eat(partner, this);
-  } else if (this.size === 50 && partner.size === 50) {
+  } else if (this.size === 400 && partner.size === 400) {
     return;
   } else if (this.size > partner.size) {
     eat(this, partner);
