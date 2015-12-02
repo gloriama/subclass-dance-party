@@ -6,20 +6,35 @@ var Dancer = function(top, left, timeBetweenSteps) {
   this.timeBetweenSteps = timeBetweenSteps;
   this.top = top;
   this.left = left;
-  this.size = 20;
-  this.color = '#f00';
+  this.size;
+  this.color;
   this.step();
+  
   // now that we have defined the dancer object, we can start setting up important parts of it by calling the methods we wrote
   // this one sets the position to some random default point within the body
+  this.setSize(20);
+  this.setColor('#f00');
   this.setPosition(top, left, true);
 };
 
 Dancer.prototype.step = function() {
   // the basic dancer doesn't do anything interesting at all on each step,
   // it just schedules the next step
+
+  setTimeout(this.step.bind(this), this.timeBetweenSteps);
+  //alternative implementation (that passes SpecRunner):
   //var that = this;
   //setTimeout(function () { that.step(); }, this.timeBetweenSteps);
-  setTimeout(this.step.bind(this), this.timeBetweenSteps); //<--this should work? try again later
+};
+
+Dancer.prototype._getRandomColor = function () {
+  // Generate a random hexidecimal string  
+  var output = '#';
+  var chars = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'];
+  for (var i = 0; i < 6; i++) {
+    output += chars[Math.floor(Math.random() * 16)];
+  }
+  return output;
 };
 
 Dancer.prototype.setPosition = function(top, left, noAnimate) {
@@ -43,21 +58,10 @@ Dancer.prototype.lineUp = function(top, left) {
   this.setPosition(top, left);
 };
 
-Dancer.prototype.stopMoving = function () {
-  
-};
-
-Dancer.prototype.startMoving = function () {
-  
-};
-
 Dancer.prototype.setColor = function (color) { //color = hexadecimal string
   this.color = color || '#f00';
   var styleSettings = {
-    'border-top-color': this.color,
-    'border-left-color': this.color,
-    'border-bottom-color': this.color,
-    'border-right-color': this.color  
+    'border-color': this.color 
   };
   this.$node.css(styleSettings);
 };

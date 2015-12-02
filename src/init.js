@@ -2,7 +2,7 @@ $(document).ready(function() {
   window.dancers = [];
 
   //create one controllable dancer
-  var controlledDancer = new ControlledDancer($("body").height()/2,
+  var controlledDancer = new ControlledMovingDancer($("body").height()/2,
                                            $("body").width()/2,
                                            100);
   window.dancers.push(controlledDancer);
@@ -51,14 +51,13 @@ $(document).ready(function() {
       $("body").width() * Math.random(),
       Math.random() * 900 + 100
     );
+
     dancer.$node.on("mouseover", function(event) {
-      dancer.stopMoving();
+      if (dancer instanceof AutomaticMovingDancer) {
+        dancer.stopMoving();
+      }
     });
-    /*
-    dancer.$node.on("mouseout", function(event) {
-      dancer.startMoving();
-    });
-    */
+
     $('body').append(dancer.$node);
     window.dancers.push(dancer);
   });
@@ -72,24 +71,19 @@ $(document).ready(function() {
   
   //periodically check dancers' positions and run their collision behavior
   var runCollisionHandler = function () {
-    for(var i = 0; i < window.dancers.length; i++) {
-      for (var j = i; j < window.dancers.length; j++) {
-        if (i === j) {
-          continue;
-        }
-
-        var d1 = window.dancers[i];
-        var d2 = window.dancers[j];
-        var d1Center = { x: d1.left + d1.size,
-                         y: d1.top + d1.size };
-        var d2Center = { x: d2.left + d2.size,
-                         y: d2.top + d2.size };
-        var distance = Math.pow(Math.pow(d1Center.x - d2Center.x, 2) +
-                                Math.pow(d1Center.y - d2Center.y, 2),
-                                .5);
-        if (distance < d1.size + d2.size) {
-          d1.handleCollision(d2);
-        }
+    for(var i = 1; i < window.dancers.length; i++) {
+      var d1 = controlledDancer;
+      var d2 = window.dancers[i];
+      var d1Center = { x: d1.left + d1.size,
+                       y: d1.top + d1.size };
+      var d2Center = { x: d2.left + d2.size,
+                       y: d2.top + d2.size };
+      var distance = Math.pow(Math.pow(d1Center.x - d2Center.x, 2) +
+                              Math.pow(d1Center.y - d2Center.y, 2),
+                              .5);
+      if (distance < d1.size + d2.size) {
+        console.log("2");
+        d1.handleCollision(d2);
       }
     }
   };
