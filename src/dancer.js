@@ -6,9 +6,9 @@ var Dancer = function(top, left, timeBetweenSteps) {
   this.timeBetweenSteps = timeBetweenSteps;
   this.top = top;
   this.left = left;
-  this.size = 10;
+  this.size = 20;
   this.color = '#f00';
-  this.alive = true;
+  this.eater = false;
   this.step();
   // now that we have defined the dancer object, we can start setting up important parts of it by calling the methods we wrote
   // this one sets the position to some random default point within the body
@@ -52,16 +52,19 @@ Dancer.prototype.startMoving = function () {
   
 };
 
-Dancer.prototype.setColor = function (color) { //color = hexadecimal string
+Dancer.prototype.setColor = function (color, pacman) { //color = hexadecimal string
   this.color = color || '#f00';
   var styleSettings = {
-    'border-color': this.color
+    'border-top-color': this.color,
+    'border-left-color': this.color,
+    'border-bottom-color': this.color,
+    'border-right-color': pacman || this.color  
   };
   this.$node.css(styleSettings);
 };
 
 Dancer.prototype.setSize = function (size) {
-  this.size = Math.min(size, 50) || 10;
+  this.size = size === 0 ? 0 : Math.min(size, 50) || 20;
   var styleSettings = {
     'border-radius': '' + this.size + 'px',
     'border-width': '' + this.size + 'px'
@@ -71,15 +74,51 @@ Dancer.prototype.setSize = function (size) {
 
 Dancer.prototype.handleCollision = function (partner) { //partner = another Dancer instance
   // this.setColor('#000');
-  if (partner.alive && this.alive) {
-    if (this.size > partner.size) {
-      partner.alive = false;
-      this.setSize(this.size + partner.size);
-      partner.size = 0;
-    } else {
-      this.alive = false;
-      partner.setSize(this.size + partner.size);
-      this.size = 0;
-    }
+
+  //when colliding, the bigger one will increase slightly in size
+  //the other will become size zero
+
+  //but if both are a certain max size, then nothing happens
+ 
+  var eat = function (eater, food) {
+    eater.setSize(eater.size + food.size / 2);
+    food.setSize(0);
   }
+
+  if (this.eater !== partner.eater) {
+    this.eater ? eat(this, partner) : eat(partner, this);
+  } else if (this.size === 50 && partner.size === 50) {
+    return;
+  } else if (this.size > partner.size) {
+    eat(this, partner);
+  } else {
+    eat(partner, this);
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+
+      if (this.size > partner.size) {
+      this.setSize(this.size + partner.size / 2);
+      partner.setSize(0);
+    } else if (this.size !== 50 && partner.size !== 50) {
+      partner.setSize(this.size / 2 + partner.size);
+      this.setSize(0);
+    }
+    */
 };
