@@ -8,23 +8,20 @@ $(document).ready(function() {
   window.dancers.push(controlledDancer);
   $('body').append(controlledDancer.$node);
   $(window).on("keypress", function(event) {
-      console.log(event.keyCode);
-
-      if (event.keyCode === 97) { //left arrow key
+      if (event.keyCode === 97) { //'a' key
         controlledDancer.direction = 'left';
         controlledDancer.setPosition(controlledDancer.top, controlledDancer.left - 20, true);
-      } else if (event.keyCode === 119) { //up arrow key
+      } else if (event.keyCode === 119) { //'w' key
         controlledDancer.direction = 'top';
         controlledDancer.setPosition(controlledDancer.top - 20, controlledDancer.left, true);
-      } else if (event.keyCode === 100) { //right arrow key
+      } else if (event.keyCode === 100) { //'d' key
         controlledDancer.direction = 'right';
         controlledDancer.setPosition(controlledDancer.top, controlledDancer.left + 20, true);
-      } else if (event.keyCode === 115) { //down arrow key
+      } else if (event.keyCode === 115) { //'s' key
         controlledDancer.direction = 'bottom';
         controlledDancer.setPosition(controlledDancer.top + 20, controlledDancer.left, true);
       }
     });
-
 
 
 

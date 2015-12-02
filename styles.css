@@ -21,20 +21,21 @@ body, a:link, a:visited, a:active{
 .title{
   background-color: #777;
 }
-/*
+
 .dancer{
   border:20px solid red;
   border-radius:20px;
   position:absolute;
 }
-*/
+/*
 .dancer{
   width: 0px;
   height: 0px;
-  border-right: 20px solid transparent;
+  border-right: 20px solid red;
   border-top: 20px solid red;
   border-left: 20px solid red;
   border-bottom: 20px solid red;
   border-radius: 20px;
   position: absolute;
 }
+*/

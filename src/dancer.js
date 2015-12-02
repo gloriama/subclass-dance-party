@@ -8,7 +8,6 @@ var Dancer = function(top, left, timeBetweenSteps) {
   this.left = left;
   this.size = 20;
   this.color = '#f00';
-  this.eater = false;
   this.step();
   // now that we have defined the dancer object, we can start setting up important parts of it by calling the methods we wrote
   // this one sets the position to some random default point within the body
@@ -64,7 +63,10 @@ Dancer.prototype.setColor = function (color) { //color = hexadecimal string
 };
 
 Dancer.prototype.setSize = function (size) {
-  this.size = size === 0 ? 0 : Math.min(size, 400) || 20;
+  if (size === undefined) {
+    size = 20;
+  }
+  this.size = size;
   var styleSettings = {
     'border-radius': '' + this.size + 'px',
     'border-width': '' + this.size + 'px'
@@ -73,53 +75,5 @@ Dancer.prototype.setSize = function (size) {
 }
 
 Dancer.prototype.handleCollision = function (partner) { //partner = another Dancer instance
-  // this.setColor('#000');
-
-  //when colliding, the bigger one will increase slightly in size
-  //the other will become size zero
-
-  //but if both are a certain max size, then nothing happens
- 
-  var eat = function (eater, food) {
-    eater.setSize(eater.size + food.size / 2);
-    food.setSize(0);
-    food.eater = false;
-  }
-
-  if (this.eater !== partner.eater) {
-    this.eater ? eat(this, partner) : eat(partner, this);
-  } else if (this.size === 400 && partner.size === 400) {
-    return;
-  } else if (this.size > partner.size) {
-    eat(this, partner);
-  } else {
-    eat(partner, this);
-  }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-
-
-      if (this.size > partner.size) {
-      this.setSize(this.size + partner.size / 2);
-      partner.setSize(0);
-    } else if (this.size !== 50 && partner.size !== 50) {
-      partner.setSize(this.size / 2 + partner.size);
-      this.setSize(0);
-    }
-    */
+  
 };
