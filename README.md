@@ -5,7 +5,7 @@ This is a project I completed as a student at [hackreactor](http://hackreactor.c
 
 This is an underwater-themed game, inspired by Pac-Man.
 
-
+![Screenshot](/../screenshots/screenshots/screenshot.png?raw=true "Screenshot")
 
 Use A (left), W (up), D (right), and S (down) to control your player. Eat other dots to increase your size!
 
